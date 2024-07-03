@@ -1,6 +1,6 @@
 /*
 Framework for UDP MD Driver on F7
-2024/06/30
+2024/07/03
 */
 
 #include "EthernetInterface.h"
@@ -29,6 +29,18 @@ double mdd[6];
 double mdp[6];
 
 int main() {
+  // PWM Setting
+  MD1P.period_us(50);
+  MD2P.period_us(50);
+  MD3P.period_us(50);
+  MD4P.period_us(50);
+  MD5P.period_us(50);
+  /*
+  50(us) = 1000(ms) / 20000(Hz)
+  MDに合わせて調整
+  CytronのMDはPWM周波数が20kHzなので上式になる
+  */
+  // end
   // 送信先情報
   const char *destinationIP = "192.168.8.205";
   const uint16_t destinationPort = 4000;
@@ -131,7 +143,7 @@ void receive(UDPSocket *receiver) {
 
       ///////////////////////////////////////////////////////////////////////////////////
       // Output
-      
+
       MD1D = mdd[1];
       MD2D = mdd[2];
       MD3D = mdd[3];
@@ -143,7 +155,7 @@ void receive(UDPSocket *receiver) {
       MD3P = mdp[3];
       MD4P = mdp[4];
       MD5P = mdp[5];
-      
+
       ///////////////////////////////////////////////////////////////////////////////////
     }
   }
